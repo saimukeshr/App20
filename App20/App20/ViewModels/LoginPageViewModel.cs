@@ -17,6 +17,7 @@ namespace App20.ViewModels
         private void OnLoginCommand()
         {
             Application.Current.MainPage.Navigation.PushAsync(new MasterPage());
+            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[0]);
         }
     }
 

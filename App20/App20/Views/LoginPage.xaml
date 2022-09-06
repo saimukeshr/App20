@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:App20.ViewModels"
              x:Class="App20.Views.LoginPage"
-             xmlns:custombutton="clr-namespace:App20.Renderers">
+             xmlns:controls="clr-namespace:App20.Controls"
+             NavigationPage.HasBackButton="False">
     <ContentPage.BindingContext>
         <local:LoginPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <custombutton:CustomLoginButton  HeightRequest="80" WidthRequest="100" FontSize="30" Text="Login" ImageSource="right-arrow(4).png" Command="{Binding LoginCommand}"/>
+            <controls:CustomButton Image="RightArrow.png" HeightRequest="80" Margin="5" FontSize="30" TextColor="Black" FrameBackgroundColor="Gray" Text="LOGIN" Command="{Binding LoginCommand}"
+/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

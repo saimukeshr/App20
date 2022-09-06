@@ -15,7 +15,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Text="DETAILS" BackgroundColor="Gray"
+        <Label Text="ORDER LIST" BackgroundColor="Gray"
                FontSize="20" FontAttributes="Bold" 
                TextColor="White" VerticalTextAlignment="Center"
                HorizontalTextAlignment="Center"/>

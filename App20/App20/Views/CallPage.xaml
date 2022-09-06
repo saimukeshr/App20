@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:App20.Renderers"
+             xmlns:controls="clr-namespace:App20.Controls"
              xmlns:local="clr-namespace:App20.ViewModels"
              x:Class="App20.Views.CallPage">
     <ContentPage.BindingContext>
@@ -63,7 +63,17 @@
             <Button Grid.Row="4" Grid.Column="1" Text="0" Style="{StaticResource keypadstyle}" Command="{Binding AddCharCommand}" CommandParameter="0" />
             <Button Grid.Row="4" Grid.Column="2" Text="Del" Style="{StaticResource keypadstyle}" Command="{Binding DelCharCommand}" CommandParameter="*" />
 
-            <controls:CustomButton Grid.Row="5" Grid.Column="1" CornerRadius="60" WidthRequest="40" Text="Call" Command="{Binding CallCommand}" BackgroundColor="Green" />
+            <controls:CustomButton Grid.Row="5" Grid.Column="1" HeightRequest="80" WidthRequest="60" FrameBackgroundColor="Gray" Command="{Binding CallCommand}">
+                <Image>
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <On Platform="UWP" Value="Assets/CallImage.png" />
+                            <On Platform="iOS" Value="CallImage.png" />
+                            <On Platform="Android" Value="CallImage.png" />
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+            </controls:CustomButton>
         </Grid>
     </Frame>
 </ContentPage>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Controls.CustomButton">
+    <ContentView.Content>
+        <Frame CornerRadius="5" x:Name="buttonFrame" HorizontalOptions="Start" VerticalOptions="Start"
+                    Margin="2" HasShadow="True" Padding="2" BorderColor="Gray" >
+            <StackLayout Orientation="Horizontal" x:Name="stack" VerticalOptions="Center" >
+                <Label x:Name="btnText" HorizontalOptions="Start" TextColor="#000" BackgroundColor="Transparent"
+                        FontSize="40" HorizontalTextAlignment="Center"/>
+                <Image x:Name="btnIcon" HeightRequest="22" WidthRequest="25" HorizontalOptions="Start"
+                        BackgroundColor="Transparent"/>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

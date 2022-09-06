@@ -4,7 +4,10 @@
              x:Class="App20.MasterPage"
              xmlns:pages="clr-namespace:App20"
             NavigationPage.HasNavigationBar="False">
-  <FlyoutPage.Flyout>
+    <FlyoutPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Clicked="ToolbarItem_Clicked" />
+    </FlyoutPage.ToolbarItems>
+    <FlyoutPage.Flyout>
     <pages:MasterPageFlyout x:Name="FlyoutPage" />
   </FlyoutPage.Flyout>
   <FlyoutPage.Detail>

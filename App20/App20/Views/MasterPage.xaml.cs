@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App20.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,11 @@ namespace App20
             IsPresented = false;
 
             FlyoutPage.ListView.SelectedItem = null;
+        }
+
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage.Navigation.PushAsync(new LoginPage());
         }
     }
 }

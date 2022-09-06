@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="Gray" HorizontalTextAlignment="Center" TextColor="Black" Text="Details" FontSize="30"></Label>
+        <Label Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="Gray" HorizontalTextAlignment="Center" TextColor="Black" Text="ORDER DETAILS" FontSize="30"></Label>
         
         <Label Grid.Row="1" Grid.Column="0"  Padding="8,2,2,2" Text="Order ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
         <Label Grid.Row="2" Grid.Column="0" Padding="8,2,2,2" Text="Customer ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
