@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewModel="clr-namespace:App20.ViewModels"
+             xmlns:local="clr-namespace:App20.Behaviours"
+             x:Class="App20.Views.ListPage"
+             xmlns:customsearchbar="clr-namespace:App20.Renderers">
+    <ContentPage.BindingContext>
+        <viewModel:ListPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Text="DETAILS" BackgroundColor="Gray"
+               FontSize="20" FontAttributes="Bold" 
+               TextColor="White" VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center"/>
+        <customsearchbar:CustomSearchBar x:Name="SearchBar"
+                   Placeholder="Filter as per country" Grid.Row="1"
+                   SearchCommand="{Binding SearchCommand}" 
+                   SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" Text="{Binding SearchText}">
+            <SearchBar.Behaviors>
+                <local:TextChangedBehaviour/>
+            </SearchBar.Behaviors>
+        </customsearchbar:CustomSearchBar>
+        <ListView x:Name="listView" HasUnevenRows="True"  
+                  Grid.Row="2" BackgroundColor="AliceBlue" ItemsSource="{Binding Result}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame BorderColor="#757575" Padding="10">
+                            <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.TapCommand, Source={x:Reference Name=listView}}"  
+                                       CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="Order ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                                <Label Grid.Row="1" Grid.Column="0" Padding="8,2,2,2" Text="Customer ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                                <Label Grid.Row="2" Grid.Column="0" Padding="8,2,2,2" Text="Shipping Country  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding OrderID}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding CustomerID}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding ShipCountry}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Views.DetailInfoPage"
+             xmlns:local="clr-namespace:App20.ViewModels">
+    <ContentPage.BindingContext>
+        <local:DetailedInfoPageViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="Gray" HorizontalTextAlignment="Center" TextColor="Black" Text="Details" FontSize="30"></Label>
+        
+        <Label Grid.Row="1" Grid.Column="0"  Padding="8,2,2,2" Text="Order ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+        <Label Grid.Row="2" Grid.Column="0" Padding="8,2,2,2" Text="Customer ID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+        <Label Grid.Row="3" Grid.Column="0" Padding="8,2,2,2" Text="Shipping Country  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding OrderID}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CustomerID}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+        <Label Grid.Row="3" Grid.Column="1" Text="{Binding ShipCountry}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,20 @@
+{
+  "info": [
+    {
+      "OrderID": "20001",
+      "CustomerID": "BAFG",
+      "ShipCountry": "A"
+
+    },
+    {
+      "OrderID": "20002",
+      "CustomerID": "BOLI",
+      "ShipCountry": "B"
+    },
+    {
+      "OrderID": "20003",
+      "CustomerID": "CHEG",
+      "ShipCountry": "C"
+    }
+  ]
+}

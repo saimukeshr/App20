@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:App20.ViewModels"
+             x:Class="App20.Views.SettingsPage">
+    <ContentPage.BindingContext>
+        <local:SettingsPageViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="15">
+            <Label Text="Settings" HorizontalOptions="Center" FontSize="25" FontAttributes="Bold"/>
+            <StackLayout Orientation="Horizontal" Padding="0,30,0,0">
+                <Label Text="Network Status " FontSize="20"  HorizontalOptions="StartAndExpand"/>
+                <Label x:Name="networkState" Text="{Binding NetworkState}" FontSize="20"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

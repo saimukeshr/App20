@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.MasterPage"
+             xmlns:pages="clr-namespace:App20"
+            NavigationPage.HasNavigationBar="False">
+  <FlyoutPage.Flyout>
+    <pages:MasterPageFlyout x:Name="FlyoutPage" />
+  </FlyoutPage.Flyout>
+  <FlyoutPage.Detail>
+    <NavigationPage>
+      <x:Arguments>
+        <pages:MasterPageDetail />
+      </x:Arguments>
+    </NavigationPage>
+  </FlyoutPage.Detail>
+</FlyoutPage>
