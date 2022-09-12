@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Views.SecondList"
+             xmlns:local="clr-namespace:App20.ViewModels"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms">
+    <ContentPage.BindingContext>
+        <local:SecondListViewModel/>
+    </ContentPage.BindingContext>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Text="ID LIST" BackgroundColor="Gray"
+               FontSize="20" FontAttributes="Bold" 
+               TextColor="White" VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center"/>
+        <syncfusion:SfListView x:Name="listView" 
+                  Grid.Row="1" BackgroundColor="AliceBlue" ItemsSource="{Binding Items}" LoadMoreOption="Auto"
+                            LoadMoreCommand="{Binding LoadMoreItemsCommand}" 
+                            IsBusy="{Binding IsBusy}"   ItemSpacing="5" 
+                            LoadMoreCommandParameter="{Binding Source={x:Reference Name=listView}}" ItemSize="120">
+
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame BorderColor="#757575" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="ID " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                                <Label Grid.Row="1" Grid.Column="0" Padding="8,2,2,2" Text="TITLE " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+
+
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding id}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+        
+        </syncfusion:SfListView>
+
+    </Grid>
+</ContentPage>

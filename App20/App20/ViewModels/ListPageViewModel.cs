@@ -20,8 +20,8 @@ namespace App20.ViewModels
     public class ListPageViewModel : BaseViewModel
     {
         #region variables
-        private ApiService apiService = new ApiService();
-        private JsonServices jsonServices = new JsonServices();
+        private readonly ApiService apiService = new ApiService();
+        private readonly JsonServices jsonServices = new JsonServices();
         public DialogueService DisplayBox;
         #endregion
 
@@ -83,7 +83,7 @@ namespace App20.ViewModels
         }
 
         private List<Details> searchResults;
-        private Details details;
+        private readonly Details details;
 
         public List<Details> SearchResults
         {
@@ -157,7 +157,7 @@ namespace App20.ViewModels
         {
             try
             {
-                string webURL = ApiHelper.url;
+                string webURL = ApiHelper.listviewurl;
                 Info = await apiService.GetDataAsync(webURL);
                 Info.AddRange(Result1);
                 Result = Info.ToList();

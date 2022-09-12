@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace App20.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class SecondList : ContentPage
     {
-        public LoginPage()
+        public SecondList()
         {
             InitializeComponent();
-
         }
     }
 }

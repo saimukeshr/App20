@@ -2,23 +2,22 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace App20.Services
 {
-    public class ApiService
+    public class EntrylistApiService
     {
-        System.Net.Http.HttpClient client;
+        private readonly System.Net.Http.HttpClient client;
 
         #region Properties
-        public List<Details> Result { get; set; }
+        public List<EntryModel> Result { get; set; }
         public string WebAPIUrl { get; set; }
         public DialogueService DisplayBox;
 
         #endregion
-        public ApiService()
+        public EntrylistApiService()
         {
             client = new System.Net.Http.HttpClient();
 
@@ -27,7 +26,7 @@ namespace App20.Services
         #region APICall
 
         // Method for API Call
-        public async Task<List<Details>> GetDataAsync(string url)
+        public async Task<List<EntryModel>> GetDataAsync(string url)
         {
             try
             {
@@ -35,12 +34,12 @@ namespace App20.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<List<Details>>(content);
+                    var result = JsonConvert.DeserializeObject<List<EntryModel>>(content);
                     return result;
                 }
                 else
                     DisplayBox.DialogueBox("Alert", "Connection is not set", "Ok");
-               
+
             }
             catch (Exception)
             {

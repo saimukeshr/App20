@@ -12,7 +12,7 @@ namespace App20.Services
 {
     public class JsonServices
     {
-        public List<Details> result1 { get; set; }
+        public List<Details> Result1 { get; set; }
 
         // Method for Calling Json Data from local file
         public async Task<List<Details>> CallJsonDataAsync()
@@ -25,9 +25,9 @@ namespace App20.Services
             {
                 var jsonString = await reader.ReadToEndAsync();
                 OrderList = JsonConvert.DeserializeObject<OrderObject>(jsonString);
-                result1 = OrderList.Info;
+                Result1 = OrderList.Info;
             }
-            return result1;
+            return Result1;
         }
     }
 }

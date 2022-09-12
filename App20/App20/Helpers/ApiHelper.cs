@@ -6,6 +6,7 @@ namespace App20.Helpers
 {
     public class ApiHelper
     {
-        public static string url = "https://ej2services.syncfusion.com/production/web-services/api/Orders";
+        public static string listviewurl = "https://ej2services.syncfusion.com/production/web-services/api/Orders";
+        public static string entrylisturl = "https://jsonplaceholder.typicode.com/photos";
     }
 }

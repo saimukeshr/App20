@@ -12,8 +12,8 @@ namespace App20.ViewModels
     {
         #region Properties
         public DialogueService DisplayBox;
-        private string displayText { get; set; }
 
+        private string displayText { get; set; }
         public string DisplayText
         {
             get { return displayText; }

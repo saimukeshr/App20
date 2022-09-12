@@ -34,9 +34,10 @@ namespace App20
             {
                 MenuItems = new ObservableCollection<MasterPageFlyoutMenuItem>(new[]
                 {
-                    new MasterPageFlyoutMenuItem { Id = 1, Title = "LIST PAGE",  TargetType=typeof(ListPage) },
+                    new MasterPageFlyoutMenuItem { Id = 1, Title = "ORDER LIST PAGE",  TargetType=typeof(ListPage) },
+                    new MasterPageFlyoutMenuItem { Id = 3, Title = "ID LIST PAGE", TargetType=typeof(SecondList) },
                     new MasterPageFlyoutMenuItem { Id = 2, Title = "CALL PAGE", TargetType=typeof(CallPage) },
-                    new MasterPageFlyoutMenuItem { Id = 3, Title = "SETTINGS PAGE", TargetType=typeof(SettingsPage) },
+                    new MasterPageFlyoutMenuItem { Id = 4, Title = "SETTINGS PAGE", TargetType=typeof(SettingsPage) },
                     
                 });
             }
