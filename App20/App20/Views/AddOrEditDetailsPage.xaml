@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Views.AddOrEditDetailsPage"
+             xmlns:viewmodel="clr-namespace:App20.ViewModels"
+             xmlns:localconverter="clr-namespace:App20.Converters">
+    <ContentPage.BindingContext>
+        <viewmodel:AddOrEditDetailsPageViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <localconverter:ButtonTextConverter x:Key="textconverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Entry x:Name="name" Placeholder="FirstName" Text="{Binding Details.FirstName}" VerticalOptions="StartAndExpand"></Entry>
+
+            <Button Command="{Binding SaveItemCommand}" VerticalOptions="End"
+                    Text="{Binding Source={x:Reference name}, Path=Text, Converter={StaticResource textconverter}}">
+                
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>  

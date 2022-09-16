@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace App20.Services
         #region APICall
 
         // Method for API Call
-        public async Task<List<EntryModel>> GetDataAsync(string url)
+        public async Task<ObservableCollection<EntryModel>> GetDataAsync(string url)
         {
             try
             {
@@ -34,8 +35,9 @@ namespace App20.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<List<EntryModel>>(content);
+                    var result = JsonConvert.DeserializeObject<ObservableCollection<EntryModel>>(content);
                     return result;
+
                 }
                 else
                     DisplayBox.DialogueBox("Alert", "Connection is not set", "Ok");

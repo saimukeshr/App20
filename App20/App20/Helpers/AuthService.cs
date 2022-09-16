@@ -9,7 +9,7 @@ using Xamarin.Essentials;
 
 namespace App20.Helpers
 {
-    public class AuthenticationHelper
+    public class AuthService
     {
         string RedirectUri
         {
@@ -24,19 +24,22 @@ namespace App20.Helpers
             }
         }
 
-        readonly string AppId = "com.companyname.app20";
-        readonly string ClientID = "c89858b7-60e3-42c6-ba7f-91fa9742f05a";
-        readonly string[] Scopes = { "User.Read" };
-        public static object ParentWindow { get; set; }
-        private IPublicClientApplication _pca;
+        readonly string AppId = "App20";
+        readonly string ClientID = "8694598b-e959-4252-a518-157193a331da";
+        readonly string[] Scopes = { "api://8694598b-e959-4252-a518-157193a331da/access_as_user" };
+        readonly IPublicClientApplication _pca;
 
-        public AuthenticationHelper()
+        // Android uses this to determine which activity to use to show
+        // the login screen dialog from.
+        public static object ParentWindow { get; set; }
+
+        public AuthService()
         {
             _pca = PublicClientApplicationBuilder.Create(ClientID)
-               .WithIosKeychainSecurityGroup(AppId)
-               .WithRedirectUri(RedirectUri)
-               .WithAuthority("https://login.microsoftonline.com/common")
-               .Build();
+                .WithIosKeychainSecurityGroup(AppId)
+                .WithRedirectUri(RedirectUri)
+                .WithAuthority("https://login.microsoftonline.com/common")
+                .Build();
         }
 
         public async Task<bool> SignInAsync()

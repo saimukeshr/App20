@@ -3,26 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App20.Views.SecondList"
              xmlns:local="clr-namespace:App20.ViewModels"
-             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms">
+             xmlns:listviewbehavior="clr-namespace:App20.Behaviours"
+             xmlns:customsearchbar="clr-namespace:App20.Renderers" xmlns:local1="clr-namespace:App20.Behaviours"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <ContentPage.BindingContext>
         <local:SecondListViewModel/>
     </ContentPage.BindingContext>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Text="ID LIST" BackgroundColor="Gray"
-               FontSize="20" FontAttributes="Bold" 
-               TextColor="White" VerticalTextAlignment="Center"
-               HorizontalTextAlignment="Center"/>
-        <syncfusion:SfListView x:Name="listView" 
-                  Grid.Row="1" BackgroundColor="AliceBlue" ItemsSource="{Binding Items}" LoadMoreOption="Auto"
-                            LoadMoreCommand="{Binding LoadMoreItemsCommand}" 
-                            IsBusy="{Binding IsBusy}"   ItemSpacing="5" 
-                            LoadMoreCommandParameter="{Binding Source={x:Reference Name=listView}}" ItemSize="120">
-
-            <syncfusion:SfListView.ItemTemplate>
+        <Label Text="ID LIST" Grid.Row="0" BackgroundColor="Gray" FontSize="20" FontAttributes="Bold" 
+               TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+        <customsearchbar:CustomSearchBar x:Name="SearchBar"
+                   Placeholder="ID Filter" Grid.Row="1"
+                   SearchCommand="{Binding SearchCommand}" 
+                   SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" Text="{Binding SearchText}">
+            <SearchBar.Behaviors>
+                <local1:TextChangedBehaviour/>
+            </SearchBar.Behaviors>
+        </customsearchbar:CustomSearchBar>
+        <ListView x:Name="listView" Grid.Row="2" BackgroundColor="AliceBlue" ItemsSource="{Binding Results}" HasUnevenRows="True">
+            <ListView.Behaviors>
+                <xct:EventToCommandBehavior EventName="ItemAppearing"
+                                            Command="{Binding LoadMoreItemsCommand}"
+                                            CommandParameter="{Binding ItemVisibilityEventArgs}"/>
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Frame BorderColor="#757575" Padding="10">
@@ -47,9 +56,9 @@
                         </Frame>
                     </ViewCell>
                 </DataTemplate>
-            </syncfusion:SfListView.ItemTemplate>
+            </ListView.ItemTemplate>
         
-        </syncfusion:SfListView>
+        </ListView>
 
     </Grid>
 </ContentPage>

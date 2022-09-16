@@ -23,6 +23,7 @@ namespace App20.ViewModels
         private readonly ApiService apiService = new ApiService();
         private readonly JsonServices jsonServices = new JsonServices();
         public DialogueService DisplayBox;
+        Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
         #endregion
 
         #region Porperties
@@ -139,6 +140,7 @@ namespace App20.ViewModels
             var task1 = Task.Factory.StartNew(() => GetDataFromApi());
             var task2 = Task.Factory.StartNew(() => GetDataFromjson());
             Task.WaitAll(task1, task2);
+            Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
 
             TapCommand = new Command<object>(OnItemtapped);
         }
@@ -155,49 +157,50 @@ namespace App20.ViewModels
         // Method to call API Call  to get Data
         public async Task GetDataFromApi()
         {
-            try
-            {
-                string webURL = ApiHelper.listviewurl;
-                Info = await apiService.GetDataAsync(webURL);
-                Info.AddRange(Result1);
-                Result = Info.ToList();
-                
-                Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
-                logger.Info("Api Method Inititated");
-            }
-            catch (Exception)
-            { }
+           
+            string webURL = ApiHelper.listviewurl;
+            Info = await apiService.GetDataAsync(webURL);
+            Info.AddRange(Result1);
+            //Result = Info.ToList() == null ? Alert() : Info;
+            Result = Info.ToList();
+
+
+            logger.Info("Api Method Inititated");
+            
         }
+
+        private List<Details> Alert()
+        {
+            DisplayBox.DialogueBox("Error", "There was error loading the data", "Ok");
+            throw new NotImplementedException();
+        }
+
+
 
         // Method to call local Json File
         public async Task GetDataFromjson()
         {
-            try
-            {
-                Result1 = await jsonServices.CallJsonDataAsync();
-                Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
-                logger.Info("Json Method Inititated");
+           // Result1 = await jsonServices.CallJsonDataAsync() == null ? Result : Alert();
+            Result1 = await jsonServices.CallJsonDataAsync();
 
-            }
-            catch (Exception)
-            { }
+            logger.Info("Json Method Inititated");
+
+          
         }
 
         // Search Command method
         private void SearchFilterCommand()
         {
-            try
-            {
-                Result = string.IsNullOrEmpty(SearchText)
+            Result = string.IsNullOrEmpty(SearchText)
                     ? Info.ToList()
                     : (from order in Info
                        where order.ShipCountry == SearchText
                        select order).ToList();
-                Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
-                logger.Info("Search Filter Method Inititated");
-            }
-            catch (Exception)
-            { }
+
+
+            //Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
+            logger.Info("Search Filter Method Inititated");
+            
         }
         #endregion
     }

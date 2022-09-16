@@ -24,7 +24,7 @@ namespace App20.Droid
 
             LoadApplication(new App());
 
-            AuthenticationHelper.ParentWindow = CrossCurrentActivity.Current.Activity;
+            // AuthService.ParentWindow = CrossCurrentActivity.Current.Activity;
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

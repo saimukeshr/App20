@@ -1,4 +1,5 @@
 ﻿using App20.Helpers;
+using App20.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace App20.ViewModels
     {
         public Command LoginCommand { get; set; }
 
-        private readonly AuthenticationHelper _authService;
+        private readonly AuthService _authService;
         private readonly SimpleGraphService _simpleGraphService;
 
         public bool IsSignedIn { get; set; }
@@ -20,9 +21,10 @@ namespace App20.ViewModels
 
        
 
+
         public LoginPageViewModel()
         {
-            _authService = new AuthenticationHelper();
+            _authService = new AuthService();
             _simpleGraphService = new SimpleGraphService();
 
             LoginCommand = new Command(() => OnLoginCommandAsync());
@@ -30,25 +32,27 @@ namespace App20.ViewModels
 
         private async Task OnLoginCommandAsync()
         {
-
-            Application.Current.MainPage.Navigation.PushAsync(new MasterPage());
-            //Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[0]);
-
+           await Application.Current.MainPage.Navigation.PushAsync(new MasterPage());
             //IsSigningIn = true;
 
             //if (await _authService.SignInAsync())
             //{
+            //    Name = await _simpleGraphService.GetNameAsync();
             //    await Application.Current.MainPage.Navigation.PushAsync(new MasterPage());
             //    IsSignedIn = true;
             //}
 
             //IsSigningIn = false;
-
-
         }
+
+        // Application.Current.MainPage.Navigation.PushAsync(new MasterPage());
+        //Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[0]);
 
 
     }
 
-    
+
 }
+
+    
+

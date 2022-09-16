@@ -20,7 +20,5 @@ namespace App20.ViewModels
             Info = Users;
 
         }
-
-
     }
 }

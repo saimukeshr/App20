@@ -1,6 +1,7 @@
 ﻿using App20.Helpers;
 using App20.Models;
 using App20.Services;
+using Syncfusion.DataSource;
 using Syncfusion.ListView.XForms;
 using System;
 using System.Collections.Generic;
@@ -14,25 +15,8 @@ namespace App20.ViewModels
 {
     public class SecondListViewModel : BaseViewModel
     {
-        private IList<dynamic> items;
-      
-        private int totalItems = 20;
-
-        public IList<dynamic> Items
-        {
-            get { return items; }
-            set
-            {
-                items = value;
-                OnPropertyChanged("Items");
-            }
-        }
-
-        public Command<object> LoadMoreItemsCommand { get; set; }
-
-        public List<EntryModel> Results { get; set; }
-
-         private readonly EntrylistApiService apiService = new EntrylistApiService();
+   
+        private readonly EntrylistApiService apiService = new EntrylistApiService();
 
         private bool _isBusy;
         public bool IsBusy
@@ -48,13 +32,87 @@ namespace App20.ViewModels
             }
         }
 
+        private string searchText { get; set; }
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                if (searchText != value)
+                {
+                    searchText = value;
+                }
+                OnPropertyChanged("SearchText");
+            }
+        }
+        private ObservableCollection<EntryModel> results;
+        public ObservableCollection<EntryModel> Results
+        {
+            get { return results; }
+            set { results = value; 
+                OnPropertyChanged("Results"); }
+        }
+
+
+        public Command LoadMoreItemsCommand { get; set; }
+
+
+        public Command<object> SearchCommand { get; set; }
+
+        public ObservableCollection<EntryModel> Products { get; set; }
+
+        public DataSource ListDataSource { get; set; }
+
         public SecondListViewModel()
         {
-            Results = new List<EntryModel>();
-           // IsBusy = true;
-            Items = new ObservableCollection<dynamic>();
+            Results = new ObservableCollection<EntryModel>();
             GetDataFromApiAsync();
-            LoadMoreItemsCommand = new Command<object>(LoadMoreItems, CanLoadMoreItems);
+            ListDataSource = new DataSource();
+            SearchCommand = new Command<object>(OnSearchCommand);
+            Products = new ObservableCollection<EntryModel>();
+
+            LoadMoreItemsCommand = new Command<ItemVisibilityEventArgs>(
+            execute: async (ItemVisibilityEventArgs args) =>
+            {
+                if ((args.Item as EntryModel).id >= Results[Results.Count - 1].id)
+                {
+                    IsBusy = true;
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Results.Add(new EntryModel()
+                        {
+                            id = Results.Count + 1,
+                            title = Results[i].title
+                        });
+                    }
+                    await Task.Delay(200); 
+                    IsBusy = false;
+                }
+            });
+        }
+
+        private void OnSearchCommand(object obj)
+        {
+            SearchText = obj as string;
+            if (this.ListDataSource != null)
+            {
+                this.ListDataSource.Filter = FilterContacts;
+                this.ListDataSource.RefreshFilter();
+            }
+        }
+
+        private bool FilterContacts(object obj)
+        {
+            if (string.IsNullOrEmpty(SearchText))
+                return true;
+
+            var entrylist = obj as EntryModel;
+            if (entrylist.id.ToString().Contains(SearchText.ToLower())
+                    || entrylist.title.ToLower().Contains(SearchText.ToLower()))
+                return true;
+            else
+                return false;
         }
 
 
@@ -64,48 +122,11 @@ namespace App20.ViewModels
             {
                 string webURL = ApiHelper.entrylisturl;
                 Results = await apiService.GetDataAsync(webURL);
-               // Results = Info.ToList();
-                totalItems = Results.Count;
 
             }
             catch (Exception)
             { }
         }
-
-        private bool CanLoadMoreItems(object obj)
-        {
-            if (Items.Count >= totalItems)
-                return false;
-            return true;
-        }
-
-        private async void LoadMoreItems(object obj)
-        {
-            var listview = obj as SfListView;
-            try
-            {
-                IsBusy = true;
-                await Task.Delay(1000);
-                var index = Items.Count;
-                var count = index + 5 >= totalItems ? totalItems - index : 5;
-                AddProducts(index, count);
-            }
-            catch
-            {
-
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
-        private void AddProducts(int index, int count)
-        {
-            for (int i = index; i < index + count; i++)
-            {
-                Items.Add(Results[i]);
-            }
-        }
+      
     }
 }

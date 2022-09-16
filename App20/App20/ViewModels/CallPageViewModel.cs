@@ -68,6 +68,7 @@ namespace App20.ViewModels
                 DisplayBox.DialogueBox("Alert", "Please Enter a Valid Number", "Ok");
             else
             DependencyService.Get<IPhoneCall>().MakePhoneCall(DisplayText);
+
             Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
             logger.Info("Call Method Inititated");
         }
