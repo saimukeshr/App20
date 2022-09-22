@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace App20.Views
+namespace App20.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PersonalDetails : ContentPage
+    public partial class ControlTemplate : ContentView
     {
-        public PersonalDetails()
+        public ControlTemplate()
         {
             InitializeComponent();
         }

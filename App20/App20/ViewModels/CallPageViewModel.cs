@@ -13,15 +13,15 @@ namespace App20.ViewModels
         #region Properties
         public DialogueService DisplayBox;
 
-        private string displayText { get; set; }
+        private string Displaytext { get; set; }
         public string DisplayText
         {
-            get { return displayText; }
+            get { return Displaytext; }
             set
             {
-                if (displayText != value)
+                if (Displaytext != value)
                 {
-                    displayText = value;
+                    Displaytext = value;
                 }
                 OnPropertyChanged();
                 DelCharCommand.ChangeCanExecute();

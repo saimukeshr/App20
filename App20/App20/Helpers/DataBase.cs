@@ -20,9 +20,9 @@ namespace App20.Helpers
         }
 
         // Show the registers
-        public Task<List<Details>> GetorderDetailsAsync()
+        public async Task<List<Details>> GetorderDetailsAsync()
         {
-            return _database.Table<Details>().ToListAsync();
+            return await _database.Table<Details>().ToListAsync();
         }
 
         // Save registers
@@ -43,6 +43,10 @@ namespace App20.Helpers
             return _database.UpdateAsync(detail);
         }
 
+        public async Task<Details> GetDetails(string OrderID)
+        {
+            return await _database.FindAsync<Details>(OrderID);
+        }
     }
 
 }

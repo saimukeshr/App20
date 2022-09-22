@@ -55,10 +55,9 @@ namespace App20.Behaviours
             bindable.ItemAppearing -= ListView_ItemAppearing;
         }
 
-        void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        public void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
-            var items = AssociatedObject.ItemsSource as IList;
-            if (items != null && e.Item == items[items.Count - 1])
+            if (AssociatedObject.ItemsSource is IList items && e.Item == items[items.Count - 1])
             {
                 if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null)) LoadMoreCommand.Execute(null);
             }

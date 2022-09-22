@@ -1,6 +1,7 @@
 ﻿using App20.Helpers;
 using App20.Models;
 using App20.Services;
+using App20.Views;
 using Syncfusion.DataSource;
 using Syncfusion.ListView.XForms;
 using System;
@@ -15,117 +16,104 @@ namespace App20.ViewModels
 {
     public class SecondListViewModel : BaseViewModel
     {
-   
+        public DialogueService DisplayBox;
         private readonly EntrylistApiService apiService = new EntrylistApiService();
 
-        private bool _isBusy;
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set
-            {
-                if (_isBusy == value)
-                    return;
-
-                _isBusy = value;
-                OnPropertyChanged("IsBusy");
-            }
-        }
-
-        private string searchText { get; set; }
+        private string Searchtext { get; set; }
         public string SearchText
         {
-            get { return searchText; }
+            get { return Searchtext; }
             set
             {
-                if (searchText != value)
+                if (Searchtext != value)
                 {
-                    searchText = value;
+                    Searchtext = value;
                 }
                 OnPropertyChanged("SearchText");
             }
         }
-        private ObservableCollection<EntryModel> results;
-        public ObservableCollection<EntryModel> Results
+
+        private string Orderid { get; set; }
+        public string OrderID
         {
-            get { return results; }
-            set { results = value; 
-                OnPropertyChanged("Results"); }
+            get { return Orderid; }
+            set
+            {
+                if (Orderid != value)
+                {
+                    Orderid = value;
+                }
+                OnPropertyChanged("OrderID");
+            }
         }
 
+        private List<EntryModel> results;
+        public List<EntryModel> Results
+        {
+            get { return results; }
+            set
+            {
+                results = value;
+                OnPropertyChanged("Results");
+            }
+        }
 
-        public Command LoadMoreItemsCommand { get; set; }
+        public ObservableCollection<EntryModel> SortedList { get; set; }
 
+        public Command AddItemCommand { get; set; }
 
-        public Command<object> SearchCommand { get; set; }
+        public Command DeleteItemCommand { get; set; }
 
-        public ObservableCollection<EntryModel> Products { get; set; }
+        public Command UpdateItemCommand { get; set; }
 
-        public DataSource ListDataSource { get; set; }
+        public EntryModel SelectedItem { get; set; }
 
         public SecondListViewModel()
         {
-            Results = new ObservableCollection<EntryModel>();
-            GetDataFromApiAsync();
-            ListDataSource = new DataSource();
-            SearchCommand = new Command<object>(OnSearchCommand);
-            Products = new ObservableCollection<EntryModel>();
-
-            LoadMoreItemsCommand = new Command<ItemVisibilityEventArgs>(
-            execute: async (ItemVisibilityEventArgs args) =>
-            {
-                if ((args.Item as EntryModel).id >= Results[Results.Count - 1].id)
-                {
-                    IsBusy = true;
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Results.Add(new EntryModel()
-                        {
-                            id = Results.Count + 1,
-                            title = Results[i].title
-                        });
-                    }
-                    await Task.Delay(200); 
-                    IsBusy = false;
-                }
-            });
+            Results = new List<EntryModel>();
+            SortedList = new ObservableCollection<EntryModel>();
+            var Task = GetDataFromApiAsync();
+            DisplayBox = new DialogueService();
+            AddItemCommand = new Command(() => AddCommand());
+            DeleteItemCommand = new Command(async () => await DeleteCommandAsync());
+            UpdateItemCommand = new Command(() => UpdateCommand());
+           
         }
 
-        private void OnSearchCommand(object obj)
+        private void UpdateCommand()
         {
-            SearchText = obj as string;
-            if (this.ListDataSource != null)
+            EntryModel Details = Results.FirstOrDefault(det => det.AlbumId == SelectedItem.AlbumId);
+            Application.Current.MainPage.Navigation.PushAsync(new AddOrEditDetailsPage("Update",Details));
+        }
+
+        private async Task DeleteCommandAsync()
+        {
+            bool Decision = await App.Current.MainPage.DisplayAlert("Alert", "Do you wish to Delete the item", "Yes", "No");
+
+            if (Decision)
             {
-                this.ListDataSource.Filter = FilterContacts;
-                this.ListDataSource.RefreshFilter();
+                EntryModel details = Results.FirstOrDefault(det => det.AlbumId == SelectedItem.AlbumId);
+               
+                await apiService.DeleteDataAsync(details.AlbumId);
             }
         }
 
-        private bool FilterContacts(object obj)
+        private void AddCommand()
         {
-            if (string.IsNullOrEmpty(SearchText))
-                return true;
-
-            var entrylist = obj as EntryModel;
-            if (entrylist.id.ToString().Contains(SearchText.ToLower())
-                    || entrylist.title.ToLower().Contains(SearchText.ToLower()))
-                return true;
-            else
-                return false;
+            App.Current.MainPage.Navigation.PushAsync(new AddOrEditDetailsPage("Add"));
         }
 
-
-        public async Task GetDataFromApiAsync()
+        public async Task<List<EntryModel>> GetDataFromApiAsync()
         {
             try
             {
-                string webURL = ApiHelper.entrylisturl;
-                Results = await apiService.GetDataAsync(webURL);
-
+                string weburl = ApiHelper.localhosturl;
+                Results = await apiService.GetDataAsync(weburl);
+                               
             }
             catch (Exception)
             { }
+            return Results;
         }
       
     }

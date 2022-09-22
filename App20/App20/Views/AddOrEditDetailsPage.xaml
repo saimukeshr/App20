@@ -9,18 +9,37 @@
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <localconverter:ButtonTextConverter x:Key="textconverter" />
+            <localconverter:InvertedBoolConverter x:Key="boolconverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.Content>
-        <StackLayout Padding="10">
-            <Entry x:Name="name" Placeholder="FirstName" Text="{Binding Details.FirstName}" VerticalOptions="StartAndExpand"></Entry>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="headertext" Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="Gray" HorizontalTextAlignment="Center" TextColor="Black" Text="ADD DETAILS" FontSize="30"></Label>
 
-            <Button Command="{Binding SaveItemCommand}" VerticalOptions="End"
-                    Text="{Binding Source={x:Reference name}, Path=Text, Converter={StaticResource textconverter}}">
-                
-            </Button>
-        </StackLayout>
-    </ContentPage.Content>
+        <Label Grid.Row="2" Grid.Column="0"  Padding="8,2,2,2" Text="AlbumID  " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+        <Label Grid.Row="3" Grid.Column="0" Padding="8,2,2,2" Text="Title " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+       
+        <Entry x:Name ="id" Grid.Row="2" Grid.Column="1" Text="{Binding OrderDetails.AlbumId}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+        <Entry x:Name="title"  Grid.Row="3" Grid.Column="1" Text="{Binding OrderDetails.Title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+
+        <Button x:Name="addbutton" Grid.Row="5" Grid.Column="0" Command="{Binding SaveItemCommand}" VerticalOptions="End"
+                    Text="Save"/> <!--IsEnabled="{Binding MyBooleanValue, Converter={StaticResource InvertedBoolConverter}}" />-->
+
+        <Button  Grid.Row="5" Grid.Column="1" Command="{Binding UpdateItemCommand}" VerticalOptions="End"
+                    Text="Update"/>
+        <!--IsEnabled="{Binding MyBooleanValue, Converter={StaticResource InvertedBoolConverter}}"  />-->
+
+    </Grid>
 </ContentPage>  

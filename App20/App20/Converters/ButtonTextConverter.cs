@@ -8,8 +8,8 @@ namespace App20.Converters
 {
     public class ButtonTextConverter :IValueConverter
     {
-        string TextAdd = "ADD";
-        string TextUpdate = "UPDATE";
+        readonly string TextAdd = "ADD";
+        readonly string TextUpdate = "UPDATE";
    
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

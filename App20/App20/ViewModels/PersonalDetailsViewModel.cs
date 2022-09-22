@@ -1,123 +1,109 @@
-﻿using App20.Models;
+﻿using App20.Helpers;
+using App20.Models;
+using App20.Services;
 using App20.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace App20.ViewModels
 {
     public class PersonalDetailsViewModel : BaseViewModel
     {
-        public ObservableCollection<PersonalDetailsModel> DetailsList { get; set; }
+        const int pageSize = 10;
+        public List<EntryModel> DetailsList { get; set; }
+        EntrylistApiService apiService = new EntrylistApiService();
 
-        private List<PersonalDetailsModel> sortedList { get; set; }
-        public List<PersonalDetailsModel> SortedList
+        private List<EntryModel> results;
+        public List<EntryModel> Results
         {
-            get { return sortedList; }
+            get { return results; }
             set
             {
-                if (sortedList != value)
-                {
-                    sortedList = value;
-                }
-                OnPropertyChanged("SortedList");
+                results = value;
+                OnPropertyChanged("Results");
             }
         }
 
-        public Command AddItemCommand { get; set; }
 
-        public Command DeleteItemCommand { get; set; }
+        private Command loadMoreDataCommand;
 
-        public Command UpdateItemCommand { get; set; }
-
-        public PersonalDetailsModel SelectedItem { get; set; }
-
-        //bool isMenuItemEnabled = true;
-        //public bool IsMenuItemEnabled
-        //{
-        //    get { return isMenuItemEnabled; }
-        //    set
-        //    {
-        //        isMenuItemEnabled = value;
-        //        DeleteItemCommand.ChangeCanExecute();
-        //    }
-        //}
-
-        private string firstName { get; set; }
-        public string FirstName
+        public Command LoadMoreDataCommand
         {
-            get { return firstName; }
-            set
+            get
             {
-                if (firstName != value)
+                if (loadMoreDataCommand == null)
                 {
-                    firstName = value;
+                    loadMoreDataCommand = new Command(LoadMoreData);
                 }
-                OnPropertyChanged("FirstName");
+
+                return loadMoreDataCommand;
             }
         }
+
+        public ObservableCollection<EntryModel> FinalList { get; set; }
+
+  
+        public Details SelectedItem { get; set; }
+
+        private string Orderid { get; set; }
+        public string OrderID
+        {
+            get { return Orderid; }
+            set
+            {
+                if (Orderid != value)
+                {
+                    Orderid = value;
+                }
+                OnPropertyChanged("OrderID");
+            }
+        }
+
+        public bool IsBusy { get; private set; }
 
         public PersonalDetailsViewModel()
         {
-            AddItemCommand = new Command(() => AddCommand());
+            LoadMoreDataCommand();
+        }
 
-            DeleteItemCommand = new Command(() => DeleteCommand());
+        public async Task GetDatailsAsync()
+        {
+            string weburl = ApiHelper.entrylisturl;
+            Results = await apiService.GetDataAsync(weburl);
 
-            UpdateItemCommand = new Command(() => UpdateCommand());
+        }
 
-            SortedList = new List<PersonalDetailsModel>();
 
-            DetailsList = new ObservableCollection<PersonalDetailsModel>();
-            DetailsList.Add(new PersonalDetailsModel() { Id = 1, FirstName = "JOHN"});
-            DetailsList.Add(new PersonalDetailsModel() { Id = 2, FirstName = "BILL" });
-            DetailsList.Add(new PersonalDetailsModel() { Id = 3, FirstName = "KEN" });
+        private void LoadMoreData()
+        {
+            if (IsBusy)
+                return;
 
-            MessagingCenter.Subscribe<AddOrEditDetailsPageViewModel, PersonalDetailsModel>(this, "AddorEditDetails", (page, details) =>
+            IsBusy = true;
+
+            // load the next page
+            var page = Results.Count / pageSize;
+
+            //calling api
+            var Result = GetDatailsAsync(pageSize, page);
+
+            Device.BeginInvokeOnMainThread(() =>
             {
-                if (details.Id == 0)
+                try
                 {
-                    details.Id = DetailsList.Count + 1;
-                    DetailsList.Add(details);
+                    Results.AddRange((IEnumerable<EntryModel>)Result);
                 }
-                else
+                finally
                 {
-                    PersonalDetailsModel EditedDetails = DetailsList.Where(det => det.Id == details.Id).FirstOrDefault();
-
-                    //int newIndex = DetailsList.IndexOf(EditedDetails);
-                    DetailsList.Remove(EditedDetails);
-
-                    DetailsList.Add(EditedDetails);
-                    //int oldIndex = DetailsList.IndexOf(EditedDetails);
-
-                    //DetailsList.Move(oldIndex, newIndex);
+                    IsBusy = false;
                 }
-
-                SortedList = DetailsList.OrderBy(x => x.FirstName).ToList();
             });
-
-            SortedList = DetailsList.OrderBy(x => x.FirstName).ToList();
-
         }
-
-        private void UpdateCommand()
-        {
-
-            PersonalDetailsModel Details = DetailsList.Where(det => det.Id == SelectedItem.Id).FirstOrDefault();
-            App.Current.MainPage.Navigation.PushAsync(new AddOrEditDetailsPage(Details));
-           
-        }
-
-        private void DeleteCommand()
-        {
-            DetailsList.Remove(SelectedItem);
-        }
-
-        private void AddCommand()
-        {
-            App.Current.MainPage.Navigation.PushAsync(new AddOrEditDetailsPage());
-;       }
     }
 }

@@ -8,7 +8,7 @@
     <ContentPage.BindingContext>
         <viewModel:ListPageViewModel/>
     </ContentPage.BindingContext>
-
+  
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -28,16 +28,12 @@
             </SearchBar.Behaviors>
         </customsearchbar:CustomSearchBar>
         <ListView x:Name="listView" HasUnevenRows="True"  
-                  Grid.Row="2" BackgroundColor="AliceBlue" ItemsSource="{Binding Result}">
+                  Grid.Row="2" BackgroundColor="AliceBlue" ItemsSource="{Binding Result}" SelectedItem="{Binding TappedOrder}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Frame BorderColor="#757575" Padding="10">
                             <Grid>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.TapCommand, Source={x:Reference Name=listView}}"  
-                                       CommandParameter="{Binding .}"/>
-                                </Grid.GestureRecognizers>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>

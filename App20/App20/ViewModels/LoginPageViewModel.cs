@@ -12,8 +12,8 @@ namespace App20.ViewModels
     {
         public Command LoginCommand { get; set; }
 
-        private readonly AuthService _authService;
-        private readonly SimpleGraphService _simpleGraphService;
+        //private readonly AuthService _authService;
+        //private readonly SimpleGraphService _simpleGraphService;
 
         public bool IsSignedIn { get; set; }
         public bool IsSigningIn { get; set; }
@@ -24,10 +24,10 @@ namespace App20.ViewModels
 
         public LoginPageViewModel()
         {
-            _authService = new AuthService();
-            _simpleGraphService = new SimpleGraphService();
+            //_authService = new AuthService();
+            //_simpleGraphService = new SimpleGraphService();
 
-            LoginCommand = new Command(() => OnLoginCommandAsync());
+            LoginCommand = new Command(async () => await OnLoginCommandAsync());
         }
 
         private async Task OnLoginCommandAsync()

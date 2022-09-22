@@ -14,14 +14,17 @@ namespace App20.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddOrEditDetailsPage : ContentPage
     {
-       public AddOrEditDetailsPage(PersonalDetailsModel SelectedDetails = null )
+       public AddOrEditDetailsPage(string Text, EntryModel SelectedDetails = null)
        {
+            string HeaderTitle = Text;
             InitializeComponent();
 
             if (SelectedDetails != null)
             {
-                ((AddOrEditDetailsPageViewModel)BindingContext).Details = SelectedDetails;
+                ((AddOrEditDetailsPageViewModel)BindingContext).OrderDetails = SelectedDetails;
             }
+
+            headertext.Text = HeaderTitle +" "+ "Details";
         }
 
         

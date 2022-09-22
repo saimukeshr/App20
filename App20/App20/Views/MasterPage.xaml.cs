@@ -21,9 +21,10 @@ namespace App20
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as MasterPageFlyoutMenuItem;
-            if (item == null)
+            if (!(e.SelectedItem is MasterPageFlyoutMenuItem item))
+            {
                 return;
+            }
 
             var page = (Page)Activator.CreateInstance(item.TargetType);
             page.Title = item.Title;

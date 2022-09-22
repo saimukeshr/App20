@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.app20" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
-	<application android:label="App20.Android" android:theme="@style/MainTheme">
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="30" />
+	<application android:usesCleartextTraffic="true" android:label="t" android:theme="@style/MainTheme">
 		<activity android:name="microsoft.identity.client.BrowserTabActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />

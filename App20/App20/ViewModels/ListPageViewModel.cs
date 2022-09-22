@@ -23,7 +23,7 @@ namespace App20.ViewModels
         private readonly ApiService apiService = new ApiService();
         private readonly JsonServices jsonServices = new JsonServices();
         public DialogueService DisplayBox;
-        Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
+        public readonly Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
         #endregion
 
         #region Porperties
@@ -69,22 +69,22 @@ namespace App20.ViewModels
             }
         }
 
-        private string searchText { get; set; }
+        private string Searchtext { get; set; }
         public string SearchText
         {
-            get { return searchText; }
+            get { return Searchtext; }
             set
             {
-                if (searchText != value)
+                if (Searchtext != value)
                 {
-                    searchText = value;
+                    Searchtext = value;
                 }
                 OnPropertyChanged("SearchText");
             }
         }
 
         private List<Details> searchResults;
-        private readonly Details details;
+       
 
         public List<Details> SearchResults
         {
@@ -99,36 +99,72 @@ namespace App20.ViewModels
             }
         }
 
+        public List<Details> DetailsList { get; set; }
+
+        private List<Details> Sortedlist { get; set; }
+        public List<Details> SortedList
+        {
+            get { return Sortedlist; }
+            set
+            {
+                if (Sortedlist != value)
+                {
+                    Sortedlist = value;
+                }
+                OnPropertyChanged("SortedList");
+            }
+        }
+
+        public Command DeleteItemCommand { get; set; }
+
+        public Command UpdateItemCommand { get; set; }
+
+        public Details SelectedItem { get; set; }
+
+        private string Orderid { get; set; }
+        public string OrderID
+        {
+            get { return Orderid; }
+            set
+            {
+                if (Orderid != value)
+                {
+                    Orderid = value;
+                }
+                OnPropertyChanged("OrderID");
+            }
+        }
         #endregion
 
         #region OnTapped Property
         // Display Alert on Tapping the List
-        //private Details tappedOrder;
-        //public Details TappedOrder
-        //{
-        //    get { return tappedOrder; }
-        //    set
-        //    {
-        //        try
-        //        {
-        //            if (value != null)
-        //            {
-        //                DisplayBox.DialogueBox("Selected Order", "Order ID: " + value.OrderID + "    " + "Customer ID: " + value.CustomerID + "   " + "ShippingCountry: " + value.ShipCountry, "Ok");
-        //                value = null;
-        //            }
-        //            tappedOrder = value;
-        //            OnPropertyChanged();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ex.ToString();
-        //        }
-        //    }
-        //}
+        private Details tappedOrder;
+        public Details TappedOrder
+        {
+            get { return tappedOrder; }
+            set
+            {
+                try
+                {
+                    if (value != null)
+                    {
+                        DisplayBox.DialogueBox("Selected Order", "Order ID: " + value.OrderID + "    " + "Customer ID: " + value.CustomerID + "   " + "ShippingCountry: " + value.ShipCountry, "Ok");
+                        value = null;
+                    }
+                    tappedOrder = value;
+                    OnPropertyChanged();
+                    SelectedItem = null;
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+            }
+        }
         #endregion
 
-        public Command SearchCommand { get; set; }
-        public Command<object> TapCommand { get; set; }
+       public Command SearchCommand { get; set; }
+       
 
         // Constructor
         public ListPageViewModel()
@@ -140,54 +176,45 @@ namespace App20.ViewModels
             var task1 = Task.Factory.StartNew(() => GetDataFromApi());
             var task2 = Task.Factory.StartNew(() => GetDataFromjson());
             Task.WaitAll(task1, task2);
+            SortedList = new List<Details>();
+
             Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
-
-            TapCommand = new Command<object>(OnItemtapped);
-        }
-
-        private void OnItemtapped(object obj)
-        {
-            var detailinfopage = new DetailInfoPage(details);
-            detailinfopage.BindingContext = obj as Details;
-            App.Current.MainPage.Navigation.PushAsync(detailinfopage);
             
+           
         }
 
         #region Methods
-        // Method to call API Call  to get Data
+        // method to call api call to get data
         public async Task GetDataFromApi()
         {
-           
-            string webURL = ApiHelper.listviewurl;
-            Info = await apiService.GetDataAsync(webURL);
+
+            string weburl = ApiHelper.listviewurl;
+            Info = await apiService.GetDataAsync(weburl);
             Info.AddRange(Result1);
-            //Result = Info.ToList() == null ? Alert() : Info;
+            //result = info.tolist() == null ? alert() : info;
             Result = Info.ToList();
 
 
-            logger.Info("Api Method Inititated");
-            
+            logger.Info("Api method inititated");
+
         }
 
-        private List<Details> Alert()
-        {
-            DisplayBox.DialogueBox("Error", "There was error loading the data", "Ok");
-            throw new NotImplementedException();
-        }
-
-
+        //private List<Details> Alert()
+        //{
+        //    DisplayBox.DialogueBox("Error", "There was error loading the data", "Ok");
+        //    throw new NotImplementedException();
+        //}
 
         // Method to call local Json File
         public async Task GetDataFromjson()
         {
+            string jsonfile = "OrderDetailsData2.json";
            // Result1 = await jsonServices.CallJsonDataAsync() == null ? Result : Alert();
-            Result1 = await jsonServices.CallJsonDataAsync();
-
+            Result1 = await jsonServices.CallJsonDataAsync(jsonfile);
             logger.Info("Json Method Inititated");
-
-          
         }
 
+        
         // Search Command method
         private void SearchFilterCommand()
         {
@@ -196,7 +223,6 @@ namespace App20.ViewModels
                     : (from order in Info
                        where order.ShipCountry == SearchText
                        select order).ToList();
-
 
             //Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
             logger.Info("Search Filter Method Inititated");

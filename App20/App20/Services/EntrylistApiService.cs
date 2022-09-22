@@ -1,8 +1,11 @@
-﻿using App20.Models;
+﻿using App20.Helpers;
+using App20.Models;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,20 +30,38 @@ namespace App20.Services
         #region APICall
 
         // Method for API Call
-        public async Task<ObservableCollection<EntryModel>> GetDataAsync(string url)
+        public async Task<List<EntryModel>> GetDataAsync(string url)
         {
             try
             {
-                var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                using (var httpClient = new HttpClient())
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ObservableCollection<EntryModel>>(content);
-                    return result;
+                    var resultJson = await httpClient.GetStringAsync(url);
+                     Result = JsonConvert.DeserializeObject<List<EntryModel>>(resultJson);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return Result;
+        }
 
+        public async Task<List<EntryModel>> PostDataAsync(EntryModel detail)
+        {
+            try
+            {
+                var Content = JsonConvert.SerializeObject(detail);
+                var stringContent = new StringContent(Content, UnicodeEncoding.UTF8, "application/json");
+                var result = await client.PostAsync("https://localhost:44327/listitems", stringContent);
+                if (result.IsSuccessStatusCode)
+                {
+                    await App.Current.MainPage.DisplayAlert("Success", "Data Saved Succcessfully", "Ok");
                 }
                 else
-                    DisplayBox.DialogueBox("Alert", "Connection is not set", "Ok");
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "Data is not Saved", "Ok");
+                }
 
             }
             catch (Exception)
@@ -49,6 +70,53 @@ namespace App20.Services
             return null;
         }
 
+        public async Task<List<EntryModel>> DeleteDataAsync(int Id)
+        {
+            try
+            {
+                var result = await client.DeleteAsync("https://localhost:44327/listitems/" + Id);
+                if (result.IsSuccessStatusCode)
+                {
+                    await App.Current.MainPage.DisplayAlert("Success", "Data Deleted Succcessfully", "Ok");
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "Data Deletion is not done", "Ok");
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return null;
+        }
+
+        public async Task<List<EntryModel>> UpdateDataAsync(EntryModel Data)
+        {
+            try
+            {
+                int id = Data.AlbumId;
+                var Content = JsonConvert.SerializeObject(Data);
+                var stringContent = new StringContent(Content, UnicodeEncoding.UTF8, "application/json");
+                var result = await client.PutAsync("https://localhost:44327/listitems/"+ id, stringContent);
+                if (result.IsSuccessStatusCode)
+                {
+                    await App.Current.MainPage.DisplayAlert("Success", "Data Saved Succcessfully", "Ok");
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "Data is not Saved", "Ok");
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return null;
+        }
         #endregion
     }
-}
+
+    }
+

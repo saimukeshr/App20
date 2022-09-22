@@ -25,6 +25,7 @@ namespace App20
             }
         }
 
+        public static new string Id;
         public static string OrderID;
         public static string CustomerID;
         public static string ShipCountry;

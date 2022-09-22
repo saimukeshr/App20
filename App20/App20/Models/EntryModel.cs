@@ -7,9 +7,9 @@ namespace App20.Models
 {
     public class EntryModel
     {
-        public int id { get; set; }
+        public int AlbumId { get; set; }
 
-        public string title { get; set; }
+        public string Title { get; set; }
 
       
     }

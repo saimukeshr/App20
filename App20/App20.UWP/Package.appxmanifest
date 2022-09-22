@@ -50,7 +50,9 @@
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
     <uap:Capability Name="phoneCall"/>
+    <uap:Capability Name="sharedUserCertificates"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>

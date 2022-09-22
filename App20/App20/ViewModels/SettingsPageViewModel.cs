@@ -1,30 +1,86 @@
-﻿using System;
+﻿using App20.Models;
+using App20.Resx;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace App20.ViewModels
 {
     public class SettingsPageViewModel : BaseViewModel
     {
-        private string networkState { get; set; }
+        private string Networkstate { get; set; }
         public string NetworkState
         {
-            get { return networkState; }
+            get { return Networkstate; }
             set
             {
-                if (networkState != value)
+                if (Networkstate != value)
                 {
-                    networkState = value;
+                    Networkstate = value;
                 }
                 OnPropertyChanged("NetworkState");
             }
         }
+
+        private ObservableCollection<Languages> supportedLanguages;
+        public ObservableCollection<Languages> SupportedLanguages
+        {
+            get
+            {
+                return supportedLanguages;
+            }
+            set
+            {
+                supportedLanguages = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Languages selectedLanguage;
+        public Languages SelectedLanguage
+        {
+            get
+            {
+                return selectedLanguage;
+            }
+            set
+            {
+                selectedLanguage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public Command ChangeLanguageCommand { get; set; }
+
+        
         public SettingsPageViewModel()
         {
             
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+
+            ChangeLanguageCommand = new Command(() => LanguageChangeCommand());
+
+            SupportedLanguages = new ObservableCollection<Languages>()
+            {
+                new Languages{Name = AppResources.English, CI = "en"},
+                new Languages{Name = AppResources.French, CI = "fr"},
+
+            };
+
+            SelectedLanguage = SupportedLanguages.FirstOrDefault(pro => pro.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
+        }
+
+        
+        private void LanguageChangeCommand()
+        {            
+            LocalizationResourceManager.Current.CurrentCulture = new CultureInfo(SelectedLanguage.CI);
         }
 
         void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)

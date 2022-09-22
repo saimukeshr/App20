@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
   <data name="networkStatus" xml:space="preserve">
-    <value>L'état du réseau</value>
+    <value>Network Status</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Save</value>
   </data>
   <data name="selectLanguage" xml:space="preserve">
-    <value>Choisir la langue</value>
+    <value>Select Language</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Réglages</value>
+    <value>Settings</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>Bienvenue dans les formulaires Xamarin</value>
+    <value>Text</value>
   </data>
 </root>

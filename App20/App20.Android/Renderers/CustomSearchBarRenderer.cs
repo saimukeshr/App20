@@ -14,12 +14,14 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(CustomSearchBar), typeof(CustomSearchBarRenderer))]
+[assembly: ExportRenderer(typeof(CustomSearchBar), typeof(App20.Droid.Renderers.SearchBarRenderer))]
 namespace App20.Droid.Renderers
 {
-    [Obsolete]
-    public class CustomSearchBarRenderer : SearchBarRenderer
+   
+    public class SearchBarRenderer : Xamarin.Forms.Platform.Android.SearchBarRenderer
     {
+        public SearchBarRenderer() : base(Android.App.Application.Context) { }
+
         protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
         {
             base.OnElementChanged(e);

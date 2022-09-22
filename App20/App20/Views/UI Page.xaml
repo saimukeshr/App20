@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Views.UI_Page"
+             xmlns:viewmodel="clr-namespace:App20.ViewModels"
+             x:Name="listpage">
+    <ContentPage.BindingContext>
+        <viewmodel:PersonalDetailsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <CollectionView x:Name="listView" ItemsSource="{Binding Results}" 
+                        RemainingItemsThreshold="5"
+                        RemainingItemsThresholdReached="OnCollectionViewRemainingItemsThresholdReached"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    
+                        <Frame BorderColor="#757575" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="AlbumId " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                                <Label Grid.Row="1" Grid.Column="0" Padding="8,2,2,2" Text="TITLE " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding AlbumId}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+
+                            </Grid>
+                        </Frame>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>    
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

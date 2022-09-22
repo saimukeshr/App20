@@ -41,7 +41,7 @@ namespace App20.Droid.Dependency
 
             if (fileName.Contains("/"))
             {
-                fileName = fileName.Substring(fileName.LastIndexOf("/", StringComparison.CurrentCultureIgnoreCase) + 1);
+                fileName = fileName[(fileName.LastIndexOf("/", StringComparison.CurrentCultureIgnoreCase) + 1)..];
             }
 
             var logger = LogManager.GetLogger(fileName);

@@ -15,7 +15,7 @@ namespace App20.Droid.Dependency
 {
     public class NLogLogger : App20.Interfaces.ILogger
     {
-        private Logger log;
+        private readonly Logger log;
 
         public NLogLogger(Logger log)
         {

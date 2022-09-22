@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App20.Views.SecondList"
              xmlns:local="clr-namespace:App20.ViewModels"
-             xmlns:listviewbehavior="clr-namespace:App20.Behaviours"
-             xmlns:customsearchbar="clr-namespace:App20.Renderers" xmlns:local1="clr-namespace:App20.Behaviours"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+             xmlns:customsearchbar="clr-namespace:App20.Renderers"
+             xmlns:local1="clr-namespace:App20.Behaviours"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Name="listpage">
     <ContentPage.BindingContext>
         <local:SecondListViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}"/>
+    </ContentPage.ToolbarItems>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -25,33 +29,46 @@
                 <local1:TextChangedBehaviour/>
             </SearchBar.Behaviors>
         </customsearchbar:CustomSearchBar>
-        <ListView x:Name="listView" Grid.Row="2" BackgroundColor="AliceBlue" ItemsSource="{Binding Results}" HasUnevenRows="True">
-            <ListView.Behaviors>
-                <xct:EventToCommandBehavior EventName="ItemAppearing"
-                                            Command="{Binding LoadMoreItemsCommand}"
-                                            CommandParameter="{Binding ItemVisibilityEventArgs}"/>
-            </ListView.Behaviors>
+        <ListView x:Name="listView" Grid.Row="2" BackgroundColor="AliceBlue" SelectedItem="{Binding SelectedItem}">
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame BorderColor="#757575" Padding="10">
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference listView}}" CommandParameter="{Binding .}"/>
+                            <MenuItem Text="Update" Command="{Binding BindingContext.UpdateItemCommand, Source={x:Reference listView}}" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
+                    <Frame BorderColor="#757575" Padding="10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="ID " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                                <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="AlbumId " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
                                 <Label Grid.Row="1" Grid.Column="0" Padding="8,2,2,2" Text="TITLE " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
 
 
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding id}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding AlbumId}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
 
+                                <Image Source="EditIcon.png" Grid.Row="0" Grid.Column="2">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command = "{Binding BindingContext.UpdateItemCommand, Source={x:Reference listView}}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Image Source="Deleteicon.png" Grid.Row="1" Grid.Column="2">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command = "{Binding BindingContext.DeleteItemCommand, Source={x:Reference listView}}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </Grid>
                         </Frame>
                     </ViewCell>

@@ -123,8 +123,17 @@
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="networkStatus" xml:space="preserve">
+    <value>Network Status</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="selectLanguage" xml:space="preserve">
+    <value>Select Language</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="Text" xml:space="preserve">
     <value>Welcome to Xamarin Forms</value>

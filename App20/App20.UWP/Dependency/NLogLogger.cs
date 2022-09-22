@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace App20.UWP.Dependency
 {
-    public class NLogLogger : App20.Interfaces.ILogger
+    public class NLogLogger : Interfaces.ILogger
     {
-        private Logger log;
+        private readonly Logger log;
 
         public NLogLogger(Logger log)
         {

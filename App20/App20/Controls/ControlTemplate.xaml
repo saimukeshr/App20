@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App20.Controls.ControlTemplate">
+    <ContentView.Content>
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="labelname" Grid.Row="0" Grid.Column="0" HorizontalOptions="StartAndExpand" Text="{TemplateBinding BindingContext.LabelName }"/>
+        <Entry Placeholder="Entry" Grid.Row="0" Grid.Column="1" Text="{TemplateBinding BindingContext.Entry}"/>
+
+        <Label x:Name="pickername" Grid.Row="1" Grid.Column="0" HorizontalOptions="StartAndExpand" Text="{TemplateBinding BindingContext.PickerName }"/>
+        <Picker x:Name="picker" Title="Picker" Grid.Row="1" Grid.Column="1"  WidthRequest="180" FontSize="Small" SelectedIndex="{TemplateBinding Parent.pickerSelectedIndex}"/>
+
+        <Label x:Name="selectdate" Grid.Row="2" Grid.Column="0" HorizontalOptions="StartAndExpand" Text="{TemplateBinding BindingContext.SelectDate }"/>
+            <DatePicker x:Name="datepicker"  Grid.Row="2" Grid.Column="1"  WidthRequest="180" FontSize="Small" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>
