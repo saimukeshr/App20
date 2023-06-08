@@ -5,6 +5,7 @@ using App20.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,96 +15,121 @@ using Xamarin.Forms;
 namespace App20.ViewModels
 {
     public class PersonalDetailsViewModel : BaseViewModel
-    {
-        const int pageSize = 10;
-        public List<EntryModel> DetailsList { get; set; }
+    {       
         EntrylistApiService apiService = new EntrylistApiService();
+        int _offset = 0;
+        private int totalItems = 0;
+        public bool IsBusy { get;  set; }
+        public List<EntryModel> Results { get; set; }
 
-        private List<EntryModel> results;
-        public List<EntryModel> Results
+        ObservableCollection<EntryModel> _listData;
+        public ObservableCollection<EntryModel> ListData
         {
-            get { return results; }
+            get { return _listData; }
             set
             {
-                results = value;
-                OnPropertyChanged("Results");
+                _listData = value;
+                OnPropertyChanged();
             }
         }
 
-
-        private Command loadMoreDataCommand;
-
-        public Command LoadMoreDataCommand
+        ObservableCollection<EntryModel> data;
+        public ObservableCollection<EntryModel> Data
         {
-            get
-            {
-                if (loadMoreDataCommand == null)
-                {
-                    loadMoreDataCommand = new Command(LoadMoreData);
-                }
-
-                return loadMoreDataCommand;
-            }
-        }
-
-        public ObservableCollection<EntryModel> FinalList { get; set; }
-
-  
-        public Details SelectedItem { get; set; }
-
-        private string Orderid { get; set; }
-        public string OrderID
-        {
-            get { return Orderid; }
+            get { return data; }
             set
             {
-                if (Orderid != value)
-                {
-                    Orderid = value;
-                }
-                OnPropertyChanged("OrderID");
+                data = value;
+                OnPropertyChanged();
             }
         }
 
-        public bool IsBusy { get; private set; }
+        private IList<EntryModel> items;
+        public IList<EntryModel> Items
+        {
+            get { return items; }
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
+            }
+        }
 
+        public Command<object> LoadMoreItemsCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
         public PersonalDetailsViewModel()
         {
-            LoadMoreDataCommand();
+            ListData = new ObservableCollection<EntryModel>();
+            GetDatailsAsync();
+            LoadMoreItems();
         }
+
 
         public async Task GetDatailsAsync()
         {
-            string weburl = ApiHelper.entrylisturl;
+            string weburl = $"https://jsonplaceholder.typicode.com/photos?limit=50,&offset=100";
             Results = await apiService.GetDataAsync(weburl);
-
+            ListData = new ObservableCollection<EntryModel>(Results);
+            totalItems = ListData.Count;
         }
 
+        //public async Task LoadMoreItems(EntryModel currentItem)
+        //{
+        //    int itemIndex = ListData.IndexOf(currentItem);
 
-        private void LoadMoreData()
+        //    _offset = ListData.Count;
+
+        //    if (ListData.Count - 3 == itemIndex)
+        //    {
+        //        string weburl = $"https://jsonplaceholder.typicode.com/photos?limit=50,&offset=100"; 
+        //        List<EntryModel> data = await apiService.GetDataAsync(weburl);
+        //        foreach (EntryModel item in data)
+        //        {
+        //            Device.BeginInvokeOnMainThread(() =>
+        //            {
+        //                ListData.Add(item);
+        //            });
+        //        }
+        //    }
+        //}
+
+        public void LoadMoreItems()
         {
-            if (IsBusy)
-                return;
+            LoadMoreItemsCommand = new Command<object>(LoadMoreItems, CanLoadMoreItems);
+        }
 
-            IsBusy = true;
+        private bool CanLoadMoreItems(object obj)
+        {
+            if (Items.Count >= totalItems)
+                return false;
+            return true;
+        }
 
-            // load the next page
-            var page = Results.Count / pageSize;
-
-            //calling api
-            var Result = GetDatailsAsync(pageSize, page);
-
-            Device.BeginInvokeOnMainThread(() =>
+        private async void LoadMoreItems(object obj)
+        {  
+            try
             {
-                try
-                {
-                    Results.AddRange((IEnumerable<EntryModel>)Result);
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
-            });
+                await Task.Delay(1000);
+                var index = Items.Count;
+                var count = index + 3 >= totalItems ? totalItems - index : 3;
+                AddProducts(index, count);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private void AddProducts(int index, int count)
+        {
+            for (int i = index; i < index + count; i++)
+            {
+                Items.Add(ListData[i]);
+            }
         }
     }
 }

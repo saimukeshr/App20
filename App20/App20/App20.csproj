@@ -47,10 +47,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\ControlTemplate.xaml">
+    <EmbeddedResource Update="Controls\CustomButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomButton.xaml">
+    <EmbeddedResource Update="Controls\Template.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resx\AppResources.en.resx">

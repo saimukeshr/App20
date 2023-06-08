@@ -79,20 +79,10 @@ namespace App20.ViewModels
             return false;
         }
 
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
-        }
+       
 
         private bool myBooleanValue;
 
-        public bool MyBooleanValue { get => myBooleanValue; set => SetProperty(ref myBooleanValue, value); }
+        public bool MyBooleanValue { get => myBooleanValue; set { myBooleanValue = value; OnPropertyChanged(nameof(MyBooleanValue)); } }
     }
 }

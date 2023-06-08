@@ -22,10 +22,16 @@ namespace App20.Views
             if (SelectedDetails != null)
             {
                 ((AddOrEditDetailsPageViewModel)BindingContext).OrderDetails = SelectedDetails;
+                ((AddOrEditDetailsPageViewModel)BindingContext).MyBooleanValue = true;
             }
+            else
+                ((AddOrEditDetailsPageViewModel)BindingContext).MyBooleanValue = false;
 
             headertext.Text = HeaderTitle +" "+ "Details";
+
+
         }
+
 
         
     }

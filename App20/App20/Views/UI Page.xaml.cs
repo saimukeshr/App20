@@ -1,4 +1,5 @@
-﻿using App20.ViewModels;
+﻿using App20.Models;
+using App20.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace App20.Views
             BindingContext = new PersonalDetailsViewModel();
         }
 
-        
+        private void listView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            //(BindingContext as PersonalDetailsViewModel).LoadMoreItems(e.Item as EntryModel);
+            (BindingContext as PersonalDetailsViewModel).LoadMoreItems();
+        }
     }
-}
+}   

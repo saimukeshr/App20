@@ -8,14 +8,11 @@
         <viewmodel:PersonalDetailsViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <CollectionView x:Name="listView" ItemsSource="{Binding Results}" 
-                        RemainingItemsThreshold="5"
-                        RemainingItemsThresholdReached="OnCollectionViewRemainingItemsThresholdReached"
-                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand}">
-            <CollectionView.ItemTemplate>
+        <ListView x:Name="listView" ItemsSource="{Binding Items}" HasUnevenRows="True" ItemAppearing="listView_ItemAppearing" RefreshCommand="{Binding LoadMoreCommand}" IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    
-                        <Frame BorderColor="#757575" Padding="10">
+                    <ViewCell>
+                    <Frame BorderColor="#757575" Padding="10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -24,8 +21,8 @@
                                     <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0"  Padding="8,2,2,2" Text="AlbumId " HorizontalOptions="Start" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
@@ -36,9 +33,9 @@
 
                             </Grid>
                         </Frame>
-                    
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>    
-        </CollectionView>
+            </ListView.ItemTemplate>    
+        </ListView>
     </ContentPage.Content>
 </ContentPage>

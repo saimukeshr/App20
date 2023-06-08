@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace App20.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ControlTemplate : ContentView
+    public partial class Template : ViewCell
     {
-        public ControlTemplate()
+        public Template()
         {
             InitializeComponent();
         }

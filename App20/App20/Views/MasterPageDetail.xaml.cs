@@ -14,13 +14,13 @@ namespace App20
     {
         public MasterPageDetail()
         {
-            if (Device.RuntimePlatform == Device.UWP)
+            if (Device.RuntimePlatform == Device.UWP) 
             NavigationPage.SetHasNavigationBar(this, false);
             else
                NavigationPage.SetHasNavigationBar(this, true);
 
             InitializeComponent();
             
-        }
+        }-
     }
 }

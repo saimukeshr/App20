@@ -57,6 +57,7 @@ namespace App20.ViewModels
         }
 
 
+        
         public Command ChangeLanguageCommand { get; set; }
 
         

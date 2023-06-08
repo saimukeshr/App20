@@ -35,10 +35,10 @@
         <Entry x:Name="title"  Grid.Row="3" Grid.Column="1" Text="{Binding OrderDetails.Title}" HorizontalOptions="Start" TextColor="Black" FontSize="16" WidthRequest="100"/>
 
         <Button x:Name="addbutton" Grid.Row="5" Grid.Column="0" Command="{Binding SaveItemCommand}" VerticalOptions="End"
-                    Text="Save"/> <!--IsEnabled="{Binding MyBooleanValue, Converter={StaticResource InvertedBoolConverter}}" />-->
+                    Text="Save" IsVisible="{Binding MyBooleanValue, Converter={StaticResource boolconverter}}" />
 
         <Button  Grid.Row="5" Grid.Column="1" Command="{Binding UpdateItemCommand}" VerticalOptions="End"
-                    Text="Update"/>
+                    Text="Update" IsVisible="{Binding MyBooleanValue}"/>
         <!--IsEnabled="{Binding MyBooleanValue, Converter={StaticResource InvertedBoolConverter}}"  />-->
 
     </Grid>
